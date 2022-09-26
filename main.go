@@ -39,6 +39,7 @@ func main() {
 	var bookings []string
 	// bookings := []string{"Andre", "Luiz"}
 
+	// for remainingTickets > 0 {
 	for {
 		// Quando não definimos o valor na declaração um tipo dado deve ser informado
 		var firstName string
