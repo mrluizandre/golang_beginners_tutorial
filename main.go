@@ -55,6 +55,10 @@ func main() {
 		fmt.Print("Informe a quantidade de ingressos: ")
 		fmt.Scan(&userTickets)
 
+		if userTickets > remainingTickets {
+			fmt.Printf("Há somente %v ingressos restantes. Você não pode comprar %v\n", referenceTickets, userTickets)
+			continue
+		}
 		// bookings[0] = firstName + " " + lastName
 		bookings = append(bookings, firstName+" "+lastName)
 		remainingTickets = remainingTickets - userTickets
@@ -81,6 +85,12 @@ func main() {
 		// "range" iterates over elements for different data structures (so not only array and slices )
 
 		fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
+
+		// var noTickerRemaining bool = remainingTickets == 0
+		if remainingTickets == 0 {
+			fmt.Println("Os ingressos acabaram. Volte novamente ano que vem!")
+			break
+		}
 	}
 
 }
