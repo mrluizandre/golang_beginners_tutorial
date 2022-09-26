@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 
@@ -13,12 +16,6 @@ func main() {
 	fmt.Print("Bem vindo a reserva de ingressos da ", conferenceName, ".\n")
 	fmt.Printf("Há o total de %v e há %v vagas restantes.\n", referenceTickets, remainingTickets)
 	fmt.Println("Obtenha aqui seus passes para participação no", "evento.")
-
-	// Quando não definimos o valor na declaração um tipo dado deve ser informado
-	var firstName string
-	var lastName string
-	var email string
-	var userTickets uint
 
 	// := operador de short variable declaration
 	// Exemplo: nome := "Andre" ao invés de var nome strng = "Andre"
@@ -35,15 +32,6 @@ func main() {
 	// bookings[1] = "Luiz"
 	// var bookings [50]string
 
-	fmt.Print("Informe o primeiro nome: ")
-	fmt.Scan(&firstName)
-	fmt.Print("Informe o último nome: ")
-	fmt.Scan(&lastName)
-	fmt.Print("Informe o e-mail: ")
-	fmt.Scan(&email)
-	fmt.Print("Informe a quantidade de ingressos: ")
-	fmt.Scan(&userTickets)
-
 	// SLICES
 	// slice is an abstraction of array
 	// slices are more flexible and powerful: variable length or get an sub-array of its own
@@ -51,18 +39,48 @@ func main() {
 	var bookings []string
 	// bookings := []string{"Andre", "Luiz"}
 
-	// bookings[0] = firstName + " " + lastName
-	bookings = append(bookings, firstName+" "+lastName)
-	remainingTickets = remainingTickets - userTickets
+	for {
+		// Quando não definimos o valor na declaração um tipo dado deve ser informado
+		var firstName string
+		var lastName string
+		var email string
+		var userTickets uint
 
-	fmt.Printf(
-		"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
-		firstName,
-		lastName,
-		userTickets,
-		email,
-	)
-	fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
+		fmt.Print("Informe o primeiro nome: ")
+		fmt.Scan(&firstName)
+		fmt.Print("Informe o último nome: ")
+		fmt.Scan(&lastName)
+		fmt.Print("Informe o e-mail: ")
+		fmt.Scan(&email)
+		fmt.Print("Informe a quantidade de ingressos: ")
+		fmt.Scan(&userTickets)
 
-	fmt.Printf("Esses são todos os ingressos: %v\n", bookings)
+		// bookings[0] = firstName + " " + lastName
+		bookings = append(bookings, firstName+" "+lastName)
+		remainingTickets = remainingTickets - userTickets
+
+		fmt.Printf(
+			"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
+			firstName,
+			lastName,
+			userTickets,
+			email,
+		)
+		fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
+
+		firstNames := []string{}
+
+		// for index, booking := range bookings {
+		// _ é usado para identificar variáveis não usadas
+		for _, booking := range bookings {
+			// No moldes do #split no ruby, aceita o separador como segundo parâmetro
+			var names = strings.Fields(booking)
+			firstNames = append(firstNames, names[0])
+		}
+
+		// "range" iterates over elements for different data structures (so not only array and slices )
+
+		fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
+	}
+
 }
