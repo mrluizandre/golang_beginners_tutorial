@@ -55,41 +55,44 @@ func main() {
 		fmt.Print("Informe a quantidade de ingressos: ")
 		fmt.Scan(&userTickets)
 
-		if userTickets > remainingTickets {
+		if userTickets < remainingTickets {
+			// bookings[0] = firstName + " " + lastName
+			bookings = append(bookings, firstName+" "+lastName)
+			remainingTickets = remainingTickets - userTickets
+
+			fmt.Printf(
+				"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
+				firstName,
+				lastName,
+				userTickets,
+				email,
+			)
+			fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
+
+			firstNames := []string{}
+
+			// for index, booking := range bookings {
+			// _ é usado para identificar variáveis não usadas
+			for _, booking := range bookings {
+				// No moldes do #split no ruby, aceita o separador como segundo parâmetro
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+
+			// "range" iterates over elements for different data structures (so not only array and slices )
+
+			fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
+
+			// var noTickerRemaining bool = remainingTickets == 0
+			if remainingTickets == 0 {
+				fmt.Println("Os ingressos acabaram. Volte novamente ano que vem!")
+				break
+			}
+		} else if userTickets == remainingTickets {
+			// do something else
+		} else {
 			fmt.Printf("Há somente %v ingressos restantes. Você não pode comprar %v\n", referenceTickets, userTickets)
-			continue
-		}
-		// bookings[0] = firstName + " " + lastName
-		bookings = append(bookings, firstName+" "+lastName)
-		remainingTickets = remainingTickets - userTickets
-
-		fmt.Printf(
-			"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
-			firstName,
-			lastName,
-			userTickets,
-			email,
-		)
-		fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
-
-		firstNames := []string{}
-
-		// for index, booking := range bookings {
-		// _ é usado para identificar variáveis não usadas
-		for _, booking := range bookings {
-			// No moldes do #split no ruby, aceita o separador como segundo parâmetro
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
-		}
-
-		// "range" iterates over elements for different data structures (so not only array and slices )
-
-		fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
-
-		// var noTickerRemaining bool = remainingTickets == 0
-		if remainingTickets == 0 {
-			fmt.Println("Os ingressos acabaram. Volte novamente ano que vem!")
-			break
+			// continue // não necessário o continue depois de adicionar o else
 		}
 	}
 
