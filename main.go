@@ -56,7 +56,11 @@ func main() {
 		fmt.Print("Informe a quantidade de ingressos: ")
 		fmt.Scan(&userTickets)
 
-		if userTickets < remainingTickets {
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketsNumber := userTickets > 0 && userTickets <= remainingTickets
+
+		if isValidName && isValidEmail && isValidTicketsNumber {
 			// bookings[0] = firstName + " " + lastName
 			bookings = append(bookings, firstName+" "+lastName)
 			remainingTickets = remainingTickets - userTickets
@@ -89,11 +93,16 @@ func main() {
 				fmt.Println("Os ingressos acabaram. Volte novamente ano que vem!")
 				break
 			}
-		} else if userTickets == remainingTickets {
-			// do something else
 		} else {
-			fmt.Printf("Há somente %v ingressos restantes. Você não pode comprar %v\n", referenceTickets, userTickets)
-			// continue // não necessário o continue depois de adicionar o else
+			if !isValidName {
+				fmt.Println("O nome informado é muito curto.")
+			}
+			if !isValidEmail {
+				fmt.Println("O e-mail informado é inválido.")
+			}
+			if !isValidTicketsNumber {
+				fmt.Println("A quantidade de e-mails informada não é válida.")
+			}
 		}
 	}
 
