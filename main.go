@@ -104,6 +104,19 @@ func main() {
 				fmt.Println("A quantidade de e-mails informada não é válida.")
 			}
 		}
+
+		city := "Alexânia"
+
+		switch city {
+		case "Anápolis":
+			// code here
+		case "Goiânia", "Nerópolis":
+			// code here
+		case "Teresópolis", "Brasília":
+			// code here
+		default:
+			// default code here
+		}
 	}
 
 }
