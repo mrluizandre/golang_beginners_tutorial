@@ -6,16 +6,13 @@ import (
 )
 
 func main() {
-
 	// DECLARAÇÃO DE VARIÁVEIS
 	// Go infere o tipo de dado quando definimos o valor na declaração
 	var conferenceName = "Conferência Go" // alternativa => conferenceName := 50, e não funciona pra declarar o tipo explicitamente
-	const referenceTickets = 50           // não há alternativa para constantes
+	const conferenceTickets = 50          // não há alternativa para constantes
 	var remainingTickets uint = 50
 
-	fmt.Print("Bem vindo a reserva de ingressos da ", conferenceName, ".\n")
-	fmt.Printf("Há o total de %v e há %v vagas restantes.\n", referenceTickets, remainingTickets)
-	fmt.Println("Obtenha aqui seus passes para participação no", "evento.")
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 
 	// := operador de short variable declaration
 	// Exemplo: nome := "Andre" ao invés de var nome strng = "Andre"
@@ -74,19 +71,8 @@ func main() {
 			)
 			fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
 
-			firstNames := []string{}
-
-			// for index, booking := range bookings {
-			// _ é usado para identificar variáveis não usadas
-			for _, booking := range bookings {
-				// No moldes do #split no ruby, aceita o separador como segundo parâmetro
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-
 			// "range" iterates over elements for different data structures (so not only array and slices )
-
-			fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
+			printFirsNames(bookings)
 
 			// var noTickerRemaining bool = remainingTickets == 0
 			if remainingTickets == 0 {
@@ -104,19 +90,20 @@ func main() {
 				fmt.Println("A quantidade de e-mails informada não é válida.")
 			}
 		}
-
-		city := "Alexânia"
-
-		switch city {
-		case "Anápolis":
-			// code here
-		case "Goiânia", "Nerópolis":
-			// code here
-		case "Teresópolis", "Brasília":
-			// code here
-		default:
-			// default code here
-		}
 	}
+}
 
+func greetUsers(confName string, conferenceTickets int, remainingTickets uint) {
+	fmt.Printf("Bem-vindo a apricação de venda de ingressas da %v!\n", confName)
+	fmt.Printf("Há o total de %v e há %v vagas restantes.\n", conferenceTickets, remainingTickets)
+	fmt.Println("Obtenha aqui seus passes para participação no", "evento.")
+}
+
+func printFirsNames(bookings []string) {
+	firstNames := []string{}
+	for _, booking := range bookings {
+		var names = strings.Fields(booking)
+		firstNames = append(firstNames, names[0])
+	}
+	fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
 }
