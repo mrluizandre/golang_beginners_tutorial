@@ -38,41 +38,21 @@ func main() {
 
 	// for remainingTickets > 0 {
 	for {
-		// Quando não definimos o valor na declaração um tipo dado deve ser informado
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets uint
+		firstName, lastName, email, userTickets := getUserInput()
 
-		fmt.Print("Informe o primeiro nome: ")
-		fmt.Scan(&firstName)
-		fmt.Print("Informe o último nome: ")
-		fmt.Scan(&lastName)
-		fmt.Print("Informe o e-mail: ")
-		fmt.Scan(&email)
-		fmt.Print("Informe a quantidade de ingressos: ")
-		fmt.Scan(&userTickets)
-
-		isValidName := len(firstName) >= 2 && len(lastName) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketsNumber := userTickets > 0 && userTickets <= remainingTickets
+		isValidName, isValidEmail, isValidTicketsNumber := validateUserInput(
+			firstName,
+			lastName,
+			email,
+			userTickets,
+			remainingTickets,
+		)
 
 		if isValidName && isValidEmail && isValidTicketsNumber {
-			// bookings[0] = firstName + " " + lastName
-			bookings = append(bookings, firstName+" "+lastName)
-			remainingTickets = remainingTickets - userTickets
+			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
 
-			fmt.Printf(
-				"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
-				firstName,
-				lastName,
-				userTickets,
-				email,
-			)
-			fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
-
-			// "range" iterates over elements for different data structures (so not only array and slices )
-			printFirsNames(bookings)
+			firstNames := getFirstNames(bookings)
+			fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
 
 			// var noTickerRemaining bool = remainingTickets == 0
 			if remainingTickets == 0 {
@@ -99,11 +79,65 @@ func greetUsers(confName string, conferenceTickets int, remainingTickets uint) {
 	fmt.Println("Obtenha aqui seus passes para participação no", "evento.")
 }
 
-func printFirsNames(bookings []string) {
+func getFirstNames(bookings []string) []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
 		var names = strings.Fields(booking)
 		firstNames = append(firstNames, names[0])
 	}
-	fmt.Printf("Os primeiros nomes dos ingressos: %v\n", firstNames)
+	return firstNames
+}
+
+func validateUserInput(
+	firstName string,
+	lastName string,
+	email string,
+	userTickets uint,
+	remainingTickets uint,
+) (bool, bool, bool) {
+	isValidName := len(firstName) >= 2 && len(lastName) >= 2
+	isValidEmail := strings.Contains(email, "@")
+	isValidTicketsNumber := userTickets > 0 && userTickets <= remainingTickets
+
+	return isValidName, isValidEmail, isValidTicketsNumber
+}
+
+func getUserInput() (string, string, string, uint) {
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets uint
+
+	fmt.Print("Informe o primeiro nome: ")
+	fmt.Scan(&firstName)
+	fmt.Print("Informe o último nome: ")
+	fmt.Scan(&lastName)
+	fmt.Print("Informe o e-mail: ")
+	fmt.Scan(&email)
+	fmt.Print("Informe a quantidade de ingressos: ")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+
+func bookTicket(
+	remainingTickets uint,
+	userTickets uint,
+	bookings []string,
+	firstName string,
+	lastName string,
+	email string,
+	conferenceName string,
+) {
+	bookings = append(bookings, firstName+" "+lastName)
+	remainingTickets = remainingTickets - userTickets
+
+	fmt.Printf(
+		"Obrigado %v %v por reservar %v ingressos. A confirmação será enviada para o e-mail %v.\n",
+		firstName,
+		lastName,
+		userTickets,
+		email,
+	)
+	fmt.Printf("%v ingressos restantes para %v\n", remainingTickets, conferenceName)
 }
